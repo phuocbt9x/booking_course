@@ -59,7 +59,12 @@ return [
             'throw' => false,
             'report' => false,
         ],
-
+        'post' => [
+            'driver' => 'local',
+            'root' => storage_path('app/posts'),
+            'url' => env('APP_URL') . '/storage/posts',
+            'visibility' => 'public',
+        ],
     ],
 
     /*
