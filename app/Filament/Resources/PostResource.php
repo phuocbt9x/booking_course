@@ -2,23 +2,24 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\CKEditor;
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\MultiSelect;
-use Illuminate\Support\Str;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Tables\Columns\ImageColumn;
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
-    protected static ?string $navigationIcon = 'heroicon-o-document';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationGroup = 'Quản lý nội dung';
     protected static ?string $navigationLabel = 'Bài viết';
     protected static ?string $pluralLabel = 'Bài viết';
@@ -28,10 +29,17 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('categories')
+                    ->label('Chọn danh mục')
+                    ->relationship('categories', 'name', function ($query) {
+                        $query->where('activated', 1);
+                    })
+                    ->multiple()
+                    ->required(),
+
                 TextInput::make('title')
                     ->required()
                     ->maxLength(255)
-                    ->reactive()
                     ->columnSpanFull(),
 
                 TextInput::make('slug')
@@ -40,25 +48,22 @@ class PostResource extends Resource
                     ->disabled()
                     ->hidden(),
 
-                TextInput::make('thumbnail')
+                FileUpload::make('thumbnail')
+                    ->label('Thumbnail')
+                    ->image()
+                    ->disk('post')
+                    ->directory('thumbnails')
                     ->required()
-                    ->maxLength(255)
                     ->columnSpanFull(),
 
-                TextArea::make('content')
+                CKEditor::make('content')
+                    ->label('Nội dung')
                     ->required()
                     ->columnSpanFull(),
 
                 Toggle::make('activated')
                     ->label('Kích hoạt')
                     ->default(false)
-                    ->columnSpanFull(),
-
-                MultiSelect::make('categories')
-                    ->label('Danh mục')
-                    ->relationship('categories', 'name')
-                    ->searchable()
-                    ->required()
                     ->columnSpanFull(),
             ]);
     }
@@ -68,18 +73,14 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->sortable()->searchable(),
-                TextColumn::make('slug')->sortable()->searchable(),
                 BooleanColumn::make('activated')->label('Kích hoạt'),
-                TextColumn::make('created_at')->dateTime(),
-            ])
-            ->filters([
-                // Add filters if necessary
+                ImageColumn::make('thumbnail')
+                    ->label('Thumbnail')
+                    ->image()
+                    ->disk('post')
+                    ->width(100)
+                    ->height(100),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [];
     }
 
     public static function getPages(): array
