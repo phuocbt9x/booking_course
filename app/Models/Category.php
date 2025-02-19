@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class Category extends Model
@@ -47,6 +48,20 @@ class Category extends Model
         $slug = Str::slug($name);
         $count = Category::where('slug', 'LIKE', "$slug%")->count();
         return $count > 0 ? "$slug-" . ($count + 1) : $slug;
+    }
+
+    public function scopeFilterByName(Builder $query, string|null $param)
+    {
+        $query->when(!empty($param), function(Builder $q) use ($param) {
+            $q->orWhere("name", "like", "%$param%");
+        });
+    }
+
+    public function scopeFilterBySlug(Builder $query, string|null $param)
+    {
+        $query->when(!empty($param), function (Builder $q) use ($param) {
+            $q->orWhere("slug", "like", "%$param%");
+        });
     }
 }
 
