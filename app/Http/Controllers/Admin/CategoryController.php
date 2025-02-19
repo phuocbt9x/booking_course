@@ -17,9 +17,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $categories = $this->category->orderBy("id", "desc")->paginate(20);
+        $categories = $this->category
+                        ->filterByName($request->get("key_search", null))
+                        ->filterBySlug($request->get("key_search", null))
+                        ->orderBy("id", "desc")
+                        ->paginate(20);
+
         return view("admin.categories.index", compact('categories'));
     }
 
