@@ -10,11 +10,11 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
             rel="stylesheet">
         <!-- Font Awesome -->
-        <link href="{{ asset('admin/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
         <!-- icheck bootstrap -->
-        <link href="{{ asset('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
         <!-- Theme style -->
-        <link href="{{ asset('admin/dist/css/adminlte.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/admin/dist/css/adminlte.min.css') }}" rel="stylesheet">
     </head>
 
     <body class="hold-transition login-page">
@@ -62,11 +62,11 @@
         <!-- /.login-box -->
 
         <!-- jQuery -->
-        <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script>
         <!-- Bootstrap 4 -->
-        <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <!-- AdminLTE App -->
-        <script src="{{ asset('admin/dist/js/adminlte.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/dist/js/adminlte.min.js') }}"></script>
     </body>
 
 </html>

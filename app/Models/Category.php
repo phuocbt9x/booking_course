@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Category extends Model
 {
@@ -19,7 +20,7 @@ class Category extends Model
 
     protected static function booted()
     {
-        static::creating(function ($category) {
+        static::creating(function (Category $category) {
             if (!$category->slug) {
                 $category->slug = static::generateUniqueSlug($category->name);
             }
@@ -27,7 +28,7 @@ class Category extends Model
             $category->created_at = now();
         });
 
-        static::updating(function ($category) {
+        static::updating(function (Category $category) {
             if (!$category->slug || $category->isDirty('name')) {
                 $category->slug = static::generateUniqueSlug($category->name);
             }
@@ -35,13 +36,13 @@ class Category extends Model
             $category->updated_at = now();
         });
 
-        static::deleting(function ($category) {
+        static::deleting(function (Category $category) {
             $category->deleted_by = auth()->id();
             $category->save();
         });
     }
 
-    protected static function generateUniqueSlug($name): string
+    protected static function generateUniqueSlug(string $name): string
     {
         $slug = Str::slug($name);
         $count = Category::where('slug', 'LIKE', "$slug%")->count();
