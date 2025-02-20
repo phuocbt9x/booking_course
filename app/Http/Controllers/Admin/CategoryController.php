@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -17,8 +18,21 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(Request $request): View | Response
     {
+        if($request->wantsJson())
+        {
+            $categories = $this->category
+                ->filterByName($request->get("search", null))
+                ->filterBySlug($request->get("search", null))
+                ->paginate(15);
+
+            return response()->json([
+                'items' => $categories->items(),
+                'more'  => $categories->hasMorePages(),
+            ]);
+        }
+
         $categories = $this->category
                         ->filterByName($request->get("key_search", null))
                         ->filterBySlug($request->get("key_search", null))

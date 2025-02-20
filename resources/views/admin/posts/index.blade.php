@@ -38,19 +38,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($categories->isNotEmpty())
-                                    @foreach ($categories as $category)
+                                @if ($posts->isNotEmpty())
+                                    @foreach ($posts as $post)
                                         <tr>
-                                            <td>{{ @$category->id }}</td>
-                                            <td>{{ @$category->name }}</td>
-                                            <td>{{ @$category->slug }}</td>
-                                            <td><span class="tag tag-success">{{ @$category->activated }}</span></td>
+                                            <td>{{ @$post->id }}</td>
+                                            <td>{{ @$post->name }}</td>
+                                            <td>{{ @$post->slug }}</td>
+                                            <td><span class="tag tag-success">{{ @$post->activated }}</span></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a class="btn btn-info"
-                                                        href="{{ route('admin.categories.edit', $category) }}">Edit</a>
-                                                    <form action="{{ route('admin.categories.destroy', $category) }}"
-                                                        class="flex" method="POST">
+                                                        href="{{ route('admin.posts.edit', $post) }}">Edit</a>
+                                                    <form action="{{ route('admin.posts.destroy', $post) }}" class="flex"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="btn btn-danger" style="border-radius: 0"
@@ -69,7 +69,7 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
-                    {{ $categories->onEachSide(5)->links() }}
+                    {{ $posts->onEachSide(5)->links() }}
                 </div>
                 <!-- /.card -->
             </div>

@@ -19,7 +19,7 @@ Route::group(["prefix" => "admin", "as" => "admin."], function () {
         Route::get("login", "index")->name("index");
         Route::post("login", "login")->name("login");
     });
-    Route::middleware("guest")->group(function() {
+    Route::middleware("auth")->group(function() {
         Route::get("/", [DashboardController::class, "index"])->name("dashboard");
         Route::resource('categories', CategoryController::class);
         Route::resource('posts', PostController::class);
