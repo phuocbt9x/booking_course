@@ -31,7 +31,8 @@
                         @csrf
                         @method('POST')
                         <div class="input-group mb-3">
-                            <input @class(['form-control', 'is-invalid' => $errors->has('email')]) name="email" placeholder="Email" type="email">
+                            <input @class(['form-control', 'is-invalid' => $errors->has('email')]) name="email" placeholder="Email" type="email"
+                                value="{{ old('email') }}">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -42,7 +43,8 @@
                             @enderror
                         </div>
                         <div class="input-group">
-                            <input @class(['form-control', 'is-invalid' => $errors->has('password')]) name="password" placeholder="Password" type="password">
+                            <input @class(['form-control', 'is-invalid' => $errors->has('password')]) name="password" placeholder="Password" type="password"
+                                value="{{ old('password', session('password')) }}">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
