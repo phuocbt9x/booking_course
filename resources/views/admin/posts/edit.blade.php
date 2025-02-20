@@ -17,14 +17,14 @@
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input @class(['form-control', 'is-invalid' => $errors->has('name')]) id="name" name="name" placeholder="Enter name"
-                                    type="text" value="{{ old('name', $category->name) }}">
+                                    type="text" value="{{ old('name', $post->name) }}">
                                 @error('name')
                                     <span class="error invalid-feedback" id="name-error">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input {{ old('activated', $category->activated) ? 'checked' : '' }}
+                                    <input {{ old('activated', $post->activated) ? 'checked' : '' }}
                                         class="custom-control-input" id="activated" name="activated" type="checkbox"
                                         value="1">
                                     <label class="custom-control-label" for="activated">Activate</label>

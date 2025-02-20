@@ -22,29 +22,40 @@
             <!-- /.login-logo -->
             <div class="card card-outline card-primary">
                 <div class="card-header text-center">
-                    <h1 class="h1"><b>Admin</b>LTE</h1>
+                    <h1 class="h1"><b>Admin</b></h1>
                 </div>
                 <div class="card-body">
                     <p class="login-box-msg">Sign in to start your session</p>
 
-                    <form action="../../index3.html" method="post">
+                    <form action="{{ route('admin.auth.login') }}" method="post">
+                        @csrf
+                        @method('POST')
                         <div class="input-group mb-3">
-                            <input class="form-control" placeholder="Email" type="email">
+                            <input @class(['form-control', 'is-invalid' => $errors->has('email')]) name="email" placeholder="Email" type="email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
                                 </div>
                             </div>
+                            @error('email')
+                                <span class="error invalid-feedback" id="name-error">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="input-group mb-3">
-                            <input class="form-control" placeholder="Password" type="password">
+                        <div class="input-group">
+                            <input @class(['form-control', 'is-invalid' => $errors->has('password')]) name="password" placeholder="Password" type="password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
                                 </div>
                             </div>
+                            @error('password')
+                                <span class="error invalid-feedback" id="name-error">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="row">
+                        @error('auth_error')
+                            <span class="error" style="color: #dc3545">{{ $message }}</span>
+                        @enderror
+                        <div class="row mt-3">
                             <div class="col-8">
                             </div>
                             <!-- /.col -->
