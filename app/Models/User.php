@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,7 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'activated',
+        'remember_token',
         'created_by',
         'created_at',
         'updated_by',
@@ -54,4 +55,26 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted()
+    {
+        static::creating(function (User $user) {
+            $user->created_by = auth()->id();
+            $user->created_at = now();
+        });
+
+        static::updating(function (user $user) {
+            $user->updated_by = auth()->id();
+            $user->updated_at = now();
+        });
+
+        static::deleting(function (user $user) {
+            $user->deleted_by = auth()->id();
+            $user->save();
+        });
+    }
+
+    public function password(): Attribute
+    {
+        return Attribute::set(fn(string $value) => bcrypt($value));
+    }
 }

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Authenticate\AuthenticateRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -11,11 +12,21 @@ class AuthController extends Controller
 {
     public function index(): View
     {
-        return view("auth.login");
+        return view("admin.auth.login");
     }
 
-    public function login(): RedirectResponse
+    public function login(AuthenticateRequest $request): RedirectResponse
     {
-        return redirect()->route("admin.dashboard");
+        if (Auth::attempt($request->only(["email", "password"]))) {
+            return redirect()->route("admin.dashboard");
+        }
+
+        return redirect()
+            ->back()
+            ->withErrors([
+                "auth_error" => "Email or password incorrect",
+            ])
+            ->withInput();
+
     }
 }
