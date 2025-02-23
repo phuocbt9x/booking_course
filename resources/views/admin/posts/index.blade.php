@@ -42,8 +42,8 @@
                                     @foreach ($posts as $post)
                                         <tr>
                                             <td>{{ @$post->id }}</td>
-                                            <td>{{ @$post->title }}</td>
-                                            <td>{{ @$post->slug }}</td>
+                                            <td>{{ Str::limit(@$post->title, 100, '...') }}</td>
+                                            <td>{{ Str::limit(@$post->slug, 100, '...') }}</td>
                                             <td>{!! @$post->activated !!}</td>
                                             <td>
                                                 <div class="btn-group">

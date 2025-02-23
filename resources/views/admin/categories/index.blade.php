@@ -42,8 +42,8 @@
                                     @foreach ($categories as $category)
                                         <tr>
                                             <td>{{ @$category->id }}</td>
-                                            <td>{{ @$category->name }}</td>
-                                            <td>{{ @$category->slug }}</td>
+                                            <td>{{ Str::limit(@$category->name, 100, '...') }}</td>
+                                            <td>{{ Str::limit(@$category->slug, 100, '...') }}</td>
                                             <td>{!! @$category->activated !!}</td>
                                             <td>
                                                 <div class="btn-group">
