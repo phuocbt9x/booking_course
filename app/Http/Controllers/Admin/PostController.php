@@ -109,7 +109,10 @@ class PostController extends Controller
                 }
 
                 $request->merge(["thumbnail" => Storage::disk('upload')->url($tmpPath)]);
+            } else {
+                $request->request->remove('thumbnail');
             }
+
             $request->mergeIfMissing([
                 "activated" => false,
             ]);
