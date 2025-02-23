@@ -5,15 +5,25 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Contact;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
+    public function __construct(protected Contact $contact) {}
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $contacts = $this->contact
+            ->filterByName($request->get("search", null))
+            ->filterByEmail($request->get("search", null))
+            ->filterByContent($request->get("search", null))
+            ->orderBy("id", "desc")
+            ->paginate(20);
+
+        return view("admin.contacts.index", compact("contacts"));
     }
 
     /**
@@ -29,7 +39,15 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $this->contact->create($request->except(['_token', '_method']));
+            DB::commit();
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->withInput();
+        }
     }
 
     /**
@@ -53,7 +71,15 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $contact->update($request->except(['_token', '_method']));
+            DB::commit();
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->withInput();
+        }
     }
 
     /**

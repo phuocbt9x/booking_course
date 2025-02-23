@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            <a class="btn btn-block btn-primary btn-sm" href="{{ route('admin.posts.create') }}"
+                            <a class="btn btn-block btn-primary btn-sm" href="{{ route('admin.contacts.create') }}"
                                 type="button">Add new</a>
                         </div>
                         <form action="{{ url()->current() }}" class="float-right" method="get">
@@ -32,25 +32,27 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Slug</th>
+                                    <th>Email</th>
+                                    <th>Content</th>
                                     <th>Status</th>
                                     <th>Action(s)</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($posts->isNotEmpty())
-                                    @foreach ($posts as $post)
+                                @if ($contacts->isNotEmpty())
+                                    @foreach ($contacts as $contact)
                                         <tr>
-                                            <td>{{ @$post->id }}</td>
-                                            <td>{{ @$post->title }}</td>
-                                            <td>{{ @$post->slug }}</td>
-                                            <td>{!! @$post->activated !!}</td>
+                                            <td>{{ @$contact->id }}</td>
+                                            <td>{{ @$contact->name }}</td>
+                                            <td>{{ @$contact->email }}</td>
+                                            <td>{{ @$contact->content }}</td>
+                                            <td>{!! @$contact->activated !!}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a class="btn btn-info"
-                                                        href="{{ route('admin.posts.edit', $post) }}">Edit</a>
-                                                    <form action="{{ route('admin.posts.destroy', $post) }}" class="flex"
-                                                        method="POST">
+                                                        href="{{ route('admin.contacts.edit', $contact) }}">Edit</a>
+                                                    <form action="{{ route('admin.contacts.destroy', $contact) }}"
+                                                        class="flex" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="btn btn-danger" style="border-radius: 0"
@@ -69,7 +71,7 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
-                    {{ $posts->onEachSide(5)->links() }}
+                    {{ $contacts->onEachSide(5)->links() }}
                 </div>
                 <!-- /.card -->
             </div>

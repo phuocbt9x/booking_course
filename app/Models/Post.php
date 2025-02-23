@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -60,10 +61,24 @@ class Post extends Model
         return $count > 0 ? "$slug-" . ($count + 1) : $slug;
     }
 
+    public function scopeFilterByName(Builder $query, string|null $param)
+    {
+        $query->when(!empty($param), function (Builder $q) use ($param) {
+            $q->orWhere("name", "like", "%$param%");
+        });
+    }
+
+    public function scopeFilterBySlug(Builder $query, string|null $param)
+    {
+        $query->when(!empty($param), function (Builder $q) use ($param) {
+            $q->orWhere("slug", "like", "%$param%");
+        });
+    }
+
     public function activated(): Attribute
     {
         return Attribute::get(
-            fn() => $this->is_active
+            fn() => $this->activated
                 ? "<span class='badge rounded-pill bg-success'>Active</span>"
                 : "<span class='badge rounded-pill bg-danger'>Inactive</span>"
         );

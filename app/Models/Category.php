@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Auth;
 
 class Category extends Model
 {
@@ -68,7 +67,7 @@ class Category extends Model
     public function activated(): Attribute
     {
         return Attribute::get(
-            fn() => $this->is_active
+            fn() => $this->activated
                 ? "<span class='badge rounded-pill bg-success'>Active</span>"
                 : "<span class='badge rounded-pill bg-danger'>Inactive</span>"
         );
