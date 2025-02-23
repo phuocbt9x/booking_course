@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,9 +27,17 @@ class Post extends Model
         'deleted_by'
     ];
 
+    protected $with = ['categories',  'author'];
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'post_category', 'post_id', 'category_id');
+    }
+
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     protected static function booted()
@@ -82,5 +92,10 @@ class Post extends Model
                 ? "<span class='badge rounded-pill bg-success'>Active</span>"
                 : "<span class='badge rounded-pill bg-danger'>Inactive</span>"
         );
+    }
+
+    public function createdDate(): Attribute
+    {
+        return Attribute::get(fn() => Carbon::parse($this->created_at)->format('F d, Y'));
     }
 }
