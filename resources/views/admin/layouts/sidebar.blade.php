@@ -15,7 +15,7 @@
                     src="{{ asset('assets/admin/dist/img/user2-160x160.jpg') }}">
             </div>
             <div class="info">
-                <a class="d-block" href="#">Alexander Pierce</a>
+                <a class="d-block" href="#">{{ auth()->user()->name }}</a>
             </div>
         </div>
 
