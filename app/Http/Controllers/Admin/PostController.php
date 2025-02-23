@@ -22,8 +22,10 @@ class PostController extends Controller
     public function index(Request $request): View
     {
         $posts = $this->post
-            ->orderBy("id", "desc")
-            ->paginate(20);
+                    ->filterByName($request->get("search", null))
+                    ->filterBySlug($request->get("search", null))
+                    ->orderBy("id", "desc")
+                    ->paginate(20);
 
         return view("admin.posts.index", compact("posts"));
     }
@@ -108,6 +110,9 @@ class PostController extends Controller
 
                 $request->merge(["thumbnail" => Storage::disk('upload')->url($tmpPath)]);
             }
+            $request->mergeIfMissing([
+                "activated" => false,
+            ]);
             $post->update($request->except("categories"));
             $post->categories()->sync($request->input('categories'));
 

@@ -26,7 +26,7 @@
                         </form>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <div class="card-body table-responsive p-0" style="height: 500px;">
                         <table class="table-head-fixed table text-nowrap">
                             <thead>
                                 <tr>
