@@ -49,6 +49,8 @@
                                                 <div class="btn-group">
                                                     <a class="btn btn-info"
                                                         href="{{ route('admin.posts.edit', $post) }}">Edit</a>
+                                                    <a class="btn btn-success"
+                                                        href="{{ route('admin.posts.show', $post) }}">Show</a>
                                                     <form action="{{ route('admin.posts.destroy', $post) }}" class="flex"
                                                         method="POST">
                                                         @csrf

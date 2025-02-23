@@ -77,25 +77,23 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        return view("admin.posts.show", compact("post"));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        $post = $this->post->with("categories")->findOrFail($id);
         return view("admin.posts.edit", compact("post"));
     }
 
-    public function update(UpdateRequest $request, string $id)
+    public function update(UpdateRequest $request, Post $post)
     {
         DB::beginTransaction();
         try {
-            $post = $this->post->findOrFail($id);
             if ($request->filled('thumbnail')) {
                 $oldThumbnailPath = str_replace(Storage::disk('upload')->url(''), '', $post->thumbnail);
                 if ($post->thumbnail && Storage::disk('upload')->exists($oldThumbnailPath)) {
@@ -130,12 +128,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
         DB::beginTransaction();
         try {
-            $post = $this->post->findOrFail($id);
-
             if ($post->thumbnail) {
                 $thumbnailPath = str_replace(Storage::disk('upload')->url(''), '', $post->thumbnail);
                 if (Storage::disk('upload')->exists($thumbnailPath)) {
