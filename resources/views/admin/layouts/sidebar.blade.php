@@ -26,21 +26,51 @@
                 <!-- Add icons to the links using the .nav-icon class
 with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                    <a @class([
+                        'nav-link',
+                        'active' => in_array(Route::currentRouteName(), ['auth.dashboard']),
+                    ]) href="{{ route('admin.dashboard') }}">
                         <i class="nav-icon fas fa-ellipsis-h"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.categories.index') }}">
+                    <a @class([
+                        'nav-link',
+                        'active' => in_array(Route::currentRouteName(), [
+                            'admin.categories.index',
+                            'admin.categories.create',
+                            'admin.categories.edit',
+                        ]),
+                    ]) href="{{ route('admin.categories.index') }}">
                         <i class="nav-icon fas fa-ellipsis-h"></i>
                         <p>Category</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.posts.index') }}">
+                    <a @class([
+                        'nav-link',
+                        'active' => in_array(Route::currentRouteName(), [
+                            'admin.posts.index',
+                            'admin.posts.create',
+                            'admin.posts.edit',
+                        ]),
+                    ]) href="{{ route('admin.posts.index') }}">
                         <i class="nav-icon fas fa-ellipsis-h"></i>
                         <p>Post</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a @class([
+                        'nav-link',
+                        'active' => in_array(Route::currentRouteName(), [
+                            'admin.contacts.index',
+                            'admin.contacts.create',
+                            'admin.contacts.edit',
+                        ]),
+                    ]) href="{{ route('admin.contacts.index') }}">
+                        <i class="nav-icon fas fa-ellipsis-h"></i>
+                        <p>Contacts</p>
                     </a>
                 </li>
             </ul>

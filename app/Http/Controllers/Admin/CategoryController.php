@@ -25,6 +25,7 @@ class CategoryController extends Controller
             $categories = $this->category
                 ->filterByName($request->get("search", null))
                 ->filterBySlug($request->get("search", null))
+                ->where("activated", true)
                 ->paginate(15);
 
             return response()->json([

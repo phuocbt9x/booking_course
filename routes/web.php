@@ -3,9 +3,11 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\UploadController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -23,6 +25,11 @@ Route::group(["prefix" => "admin", "as" => "admin."], function () {
         Route::get("/", [DashboardController::class, "index"])->name("dashboard");
         Route::resource('categories', CategoryController::class);
         Route::resource('posts', PostController::class);
+        Route::resource('contacts', ContactController::class);
+        Route::group(["as" => "upload.", "controller" => UploadController::class], function () {
+            Route::post("file", "handle")->name("file");
+            Route::post("file-tmp", "uploadTempFile")->name("file-tmp");
+        });
     });
 });
 

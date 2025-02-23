@@ -42,9 +42,9 @@
                                     @foreach ($posts as $post)
                                         <tr>
                                             <td>{{ @$post->id }}</td>
-                                            <td>{{ @$post->name }}</td>
+                                            <td>{{ @$post->title }}</td>
                                             <td>{{ @$post->slug }}</td>
-                                            <td><span class="tag tag-success">{{ @$post->activated }}</span></td>
+                                            <td>{!! @$post->activated !!}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a class="btn btn-info"
