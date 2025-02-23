@@ -30,7 +30,7 @@ with font-awesome or any other icon font library -->
                         'nav-link',
                         'active' => in_array(Route::currentRouteName(), ['auth.dashboard']),
                     ]) href="{{ route('admin.dashboard') }}">
-                        <i class="nav-icon fas fa-ellipsis-h"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
@@ -43,7 +43,7 @@ with font-awesome or any other icon font library -->
                             'admin.categories.edit',
                         ]),
                     ]) href="{{ route('admin.categories.index') }}">
-                        <i class="nav-icon fas fa-ellipsis-h"></i>
+                        <i class="nav-icon fas fa-th"></i>
                         <p>Category</p>
                     </a>
                 </li>
@@ -56,7 +56,7 @@ with font-awesome or any other icon font library -->
                             'admin.posts.edit',
                         ]),
                     ]) href="{{ route('admin.posts.index') }}">
-                        <i class="nav-icon fas fa-ellipsis-h"></i>
+                        <i class="nav-icon fas fa-file"></i>
                         <p>Post</p>
                     </a>
                 </li>
@@ -69,7 +69,7 @@ with font-awesome or any other icon font library -->
                             'admin.contacts.edit',
                         ]),
                     ]) href="{{ route('admin.contacts.index') }}">
-                        <i class="nav-icon fas fa-ellipsis-h"></i>
+                        <i class="nav-icon fas fa-envelope"></i>
                         <p>Contacts</p>
                     </a>
                 </li>

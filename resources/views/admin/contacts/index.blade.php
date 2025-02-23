@@ -45,8 +45,8 @@
                                             <td>{{ @$contact->id }}</td>
                                             <td>{{ @$contact->name }}</td>
                                             <td>{{ @$contact->email }}</td>
-                                            <td>{{ @$contact->content }}</td>
-                                            <td>{!! @$contact->activated !!}</td>
+                                            <td>{{ Str::limit(@$contact->content, 100, '...') }}</td>
+                                            <td>{!! @$contact->status !!}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a class="btn btn-info"
