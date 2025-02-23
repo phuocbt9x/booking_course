@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Posts\StoreRequest;
+use App\Http\Requests\Posts\UpdateRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -37,9 +41,35 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            if ($request->filled('thumbnail')) {
+                $tmpPath = str_replace(Storage::disk('tmp')->url(''), '', $request->thumbnail);
+
+                if (Storage::disk('tmp')->exists($tmpPath)) {
+                    Storage::disk('upload')->put($tmpPath, Storage::disk('tmp')->get($tmpPath));
+                    Storage::disk('tmp')->delete($tmpPath);
+                }
+
+                $request->merge(["thumbnail" =>Storage::disk('upload')->url($tmpPath)]);
+            }
+            $post = $this->post->create($request->except("categories"));
+            $request->mergeIfMissing([
+                "created_by" => auth()->id(),
+                "created_at" => now(),
+                "updated_by" => auth()->id(),
+                "updated_at" => now(),
+            ]);
+            $post->categories()->sync($request->input('categories'));
+
+            DB::commit();
+            return redirect()->route("admin.posts.index");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->withInput();
+        }
     }
 
     /**
@@ -55,15 +85,38 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $post = $this->post->with("categories")->findOrFail($id);
+        return view("admin.posts.edit", compact("post"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, string $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $post = $this->post->findOrFail($id);
+            if ($request->filled('thumbnail')) {
+                $oldThumbnailPath = str_replace(Storage::disk('upload')->url(''), '', $post->thumbnail);
+                if ($post->thumbnail && Storage::disk('upload')->exists($oldThumbnailPath)) {
+                    Storage::disk('upload')->delete($oldThumbnailPath);
+                }
+
+                $tmpPath = str_replace(Storage::disk('tmp')->url(''), '', $request->thumbnail);
+                if (Storage::disk('tmp')->exists($tmpPath)) {
+                    Storage::disk('upload')->put($tmpPath, Storage::disk('tmp')->get($tmpPath));
+                    Storage::disk('tmp')->delete($tmpPath);
+                }
+
+                $request->merge(["thumbnail" => Storage::disk('upload')->url($tmpPath)]);
+            }
+            $post->update($request->except("categories"));
+            $post->categories()->sync($request->input('categories'));
+
+            DB::commit();
+            return redirect()->route("admin.posts.index");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->withInput();
+        }
     }
 
     /**
@@ -71,6 +124,26 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $post = $this->post->findOrFail($id);
+
+            if ($post->thumbnail) {
+                $thumbnailPath = str_replace(Storage::disk('upload')->url(''), '', $post->thumbnail);
+                if (Storage::disk('upload')->exists($thumbnailPath)) {
+                    Storage::disk('upload')->delete($thumbnailPath);
+                }
+            }
+
+            // $post->categories()->detach();
+
+            $post->delete();
+
+            DB::commit();
+            return redirect()->route('admin.posts.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back();
+        }
     }
 }

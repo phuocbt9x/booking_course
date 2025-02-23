@@ -59,10 +59,18 @@ return [
             'throw' => false,
             'report' => false,
         ],
-        'post' => [
+
+        'upload' => [
             'driver' => 'local',
-            'root' => storage_path('app/posts'),
-            'url' => env('APP_URL') . '/storage/posts',
+            'root' => storage_path('app/uploads/documents'),
+            'url' => env('APP_URL') . '/storage/uploads/documents',
+            'visibility' => 'public',
+        ],
+
+        'tmp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/uploads/temp'),
+            'url' => env('APP_URL') . '/storage/uploads/temp',
             'visibility' => 'public',
         ],
     ],
@@ -80,6 +88,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('storage/uploads/documents') => storage_path('app/uploads/documents'),
+        public_path('storage/uploads/temp') => storage_path('app/uploads/temp'),
     ],
 
 ];

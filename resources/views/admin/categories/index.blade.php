@@ -44,7 +44,7 @@
                                             <td>{{ @$category->id }}</td>
                                             <td>{{ @$category->name }}</td>
                                             <td>{{ @$category->slug }}</td>
-                                            <td><span class="tag tag-success">{{ @$category->activated }}</span></td>
+                                            <td>{!! @$category->activated !!}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a class="btn btn-info"

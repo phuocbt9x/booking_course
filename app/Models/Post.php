@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -57,5 +58,14 @@ class Post extends Model
         $slug = Str::slug($title);
         $count = Post::where('slug', 'LIKE', "$slug%")->count();
         return $count > 0 ? "$slug-" . ($count + 1) : $slug;
+    }
+
+    public function activated(): Attribute
+    {
+        return Attribute::get(
+            fn() => $this->is_active
+                ? "<span class='badge rounded-pill bg-success'>Active</span>"
+                : "<span class='badge rounded-pill bg-danger'>Inactive</span>"
+        );
     }
 }
