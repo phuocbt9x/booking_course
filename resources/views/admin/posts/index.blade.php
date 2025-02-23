@@ -44,7 +44,7 @@
                                             <td>{{ @$post->id }}</td>
                                             <td>{{ Str::limit(@$post->title, 100, '...') }}</td>
                                             <td>{{ Str::limit(@$post->slug, 100, '...') }}</td>
-                                            <td>{!! @$post->activated !!}</td>
+                                            <td>{!! @$post->activeStatusLabel !!}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a class="btn btn-info"

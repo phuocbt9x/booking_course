@@ -40,7 +40,7 @@ class Contact extends Model
         });
     }
 
-    public function status(): Attribute
+    public function activeStatusLabel(): Attribute
     {
         return Attribute::get(
             fn() => $this->status

@@ -29,11 +29,17 @@
                                 <label for="thumbnail">Thumbnail</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input accept="image/*" class="custom-file-input" id="thumbnail"
+                                        <input @class([
+                                            'custom-file-input',
+                                            'is-invalid' => $errors->has('thumbnail'),
+                                        ]) accept="image/*" id="thumbnail"
                                             name="thumbnail_file" type="file">
                                         <label class="custom-file-label" for="thumbnail">Choose file</label>
                                     </div>
                                 </div>
+                                @error('thumbnail')
+                                    <span class="error invalid-feedback" id="thumbnail-error">{{ $message }}</span>
+                                @enderror
                                 <input id="thumbnail-url" name="thumbnail" type="hidden" value="{{ old('thumbnail') }}">
                                 <div class="mt-2">
                                     <img alt="Preview" id="thumbnail-preview"

@@ -64,7 +64,7 @@ class Category extends Model
         });
     }
 
-    public function activated(): Attribute
+    public function activeStatusLabel(): Attribute
     {
         return Attribute::get(
             fn() => $this->activated
